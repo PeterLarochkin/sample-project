@@ -1,0 +1,28 @@
+synopsis:     "project checking"
+description:  "project checking"
+name:         "default project"
+opam-version: "2.0"
+maintainer:   "team@pruvendo.com"
+authors:      "Pruvendo Team"
+homepage:     ""
+dev-repo:     "git+https://github.com/Pruvendo/opam-repo.git"
+bug-reports:  ""
+doc:          ""
+
+license:      "GPL-3.0-or-later"
+
+depends: [
+  "coq"           { >= "8.15.0" }
+  "dune"          { >= "2.8.0"  }
+  "coq-elpi"
+  "pruvendo-base" { >= "0.2.0" }
+  "pruvendo-base-lib" { >= "0.1.0" }
+  "pruvendo-umlang" 
+  "ursus-standard-library"
+  "pruvendo-ursus-tvm"
+  "ursus-contract-creator"
+  "ursus-environment"
+  "ursus-quickchick"
+]
+
+build: [ "dune" "build" "-p" name "-j" jobs ]

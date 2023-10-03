@@ -1,0 +1,6 @@
+(coq.theory
+ (name Project)
+ (package Contract) 
+)
+
+(include_subdirs qualified)

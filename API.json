@@ -1,0 +1,629 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "UrsusOnline",
+    "description": "Ursus online pipeline demo",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/ANDREYLYASHIN/UrsusOnline/1.0",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "paths": {
+    "/translate": {
+      "post": {
+        "description": "upload and translate the given source file to Ursus",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/translate_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "100": {
+            "description": "translate.sh $FILENAME"
+          },
+          "200": {
+            "description": "File successfully uploaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/compile_translated": {
+      "post": {
+        "description": "compile translated Ursus file",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/compile_translated_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "100": {
+            "description": "dune clean && dune b -w"
+          },
+          "200": {
+            "description": "Compilation started",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_ursus_meta": {
+      "post": {
+        "description": "get the resulted meta data from compiled Ursus contract",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_ursus_meta_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "100": {
+            "description": "read the file $FILENAME.meta.json"
+          },
+          "200": {
+            "description": "contract meta data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/add_proposition": {
+      "post": {
+        "description": "add proposition",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/add_proposition_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "100": {
+            "description": "create_prop.sh ..."
+          },
+          "200": {
+            "description": "Proposition created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/compile_prop": {
+      "post": {
+        "description": "compile translated Ursus file",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/compile_prop_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "100": {
+            "description": "... dune b"
+          },
+          "200": {
+            "description": "Compilation started",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prove": {
+      "post": {
+        "description": "try to prove the given proposition",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/prove_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "100": {
+            "description": "prove.sh $FUNNAME $PROPNAME"
+          },
+          "200": {
+            "description": "Prove started",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kill_all_proofs": {
+      "post": {
+        "description": "cancel all proof processes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/kill_all_proofs_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "100": {
+            "description": "kill_all_proofs.sh"
+          },
+          "200": {
+            "description": "Proof processed are killed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kill_all_sessions": {
+      "post": {
+        "description": "kill all user processes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/kill_all_sessions_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "100": {
+            "description": "kill_all_sessions.sh"
+          },
+          "200": {
+            "description": "all sessions has been killed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authorize_session": {
+      "post": {
+        "description": "start or retrieve session",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/authorize_session_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "100": {
+            "description": "create or read session directory"
+          },
+          "200": {
+            "description": "session updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionDirectory"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ItemMeta": {
+        "type": "object",
+        "properties": {
+          "ItemName": {
+            "type": "string"
+          },
+          "ItemAttrs": {
+            "type": "string"
+          }
+        }
+      },
+      "Premise": {
+        "type": "object",
+        "properties": {
+          "tactic": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "Proposition": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "function": {
+            "type": "string"
+          },
+          "premises": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Premise"
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          }
+        }
+      },
+      "SessionDirectory": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "$ref": "#/components/schemas/SessionDirectory_session"
+          }
+        }
+      },
+      "translate_body": {
+        "type": "object",
+        "properties": {
+          "secret": {
+            "type": "string"
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "file_name": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "blockchain": {
+            "type": "string"
+          },
+          "compiler_version": {
+            "type": "string"
+          }
+        }
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "compile_translated_body": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "secret": {
+            "type": "string"
+          }
+        }
+      },
+      "get_ursus_meta_body": {
+        "type": "object",
+        "properties": {
+          "secret": {
+            "type": "string"
+          },
+          "session_id": {
+            "type": "string"
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "ContractBasic": {
+            "$ref": "#/components/schemas/ItemMeta"
+          },
+          "ContractRecipients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMeta"
+            }
+          },
+          "ContractParents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMeta"
+            }
+          },
+          "ContractCustomTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMeta"
+            }
+          },
+          "ContractConstants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMeta"
+            }
+          },
+          "ContractStateVariables": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMeta"
+            }
+          },
+          "ContractLocalTypes": {
+            "$ref": "#/components/schemas/ItemMeta"
+          },
+          "ContractInterfaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMeta"
+            }
+          },
+          "ContractMethods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMeta"
+            }
+          },
+          "ContractModifiers1": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMeta"
+            }
+          },
+          "ContractModifiers4": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMeta"
+            }
+          },
+          "ExternalPublicFunctions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemMeta"
+            }
+          }
+        }
+      },
+      "add_proposition_body": {
+        "type": "object",
+        "properties": {
+          "secret": {
+            "type": "string"
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "proposition": {
+            "$ref": "#/components/schemas/Proposition"
+          }
+        }
+      },
+      "compile_prop_body": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "secret": {
+            "type": "string"
+          },
+          "function": {
+            "type": "string"
+          },
+          "proposition": {
+            "type": "string"
+          }
+        }
+      },
+      "prove_body": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "secret": {
+            "type": "string"
+          },
+          "function": {
+            "type": "string"
+          },
+          "proposition": {
+            "type": "string"
+          }
+        }
+      },
+      "kill_all_proofs_body": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "secret": {
+            "type": "string"
+          }
+        }
+      },
+      "kill_all_sessions_body": {
+        "type": "object",
+        "properties": {
+          "admin_secret": {
+            "type": "string"
+          }
+        }
+      },
+      "authorize_session_body": {
+        "type": "object",
+        "properties": {
+          "secret": {
+            "type": "string"
+          },
+          "session_id": {
+            "type": "string"
+          }
+        }
+      },
+      "SessionDirectory_session_src_dir_exec_dir": {
+        "type": "object",
+        "properties": {
+          "created": {
+            "type": "boolean"
+          },
+          "generated": {
+            "type": "boolean"
+          },
+          "compiled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SessionDirectory_session_src_dir_prop_dir_propositions": {
+        "type": "object",
+        "properties": {
+          "proposition": {
+            "$ref": "#/components/schemas/Proposition"
+          },
+          "compiled": {
+            "type": "boolean"
+          },
+          "proven": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SessionDirectory_session_src_dir_prop_dir": {
+        "type": "object",
+        "properties": {
+          "created": {
+            "type": "boolean"
+          },
+          "propositions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SessionDirectory_session_src_dir_prop_dir_propositions"
+            }
+          }
+        }
+      },
+      "SessionDirectory_session_src_dir_functions_dir": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "exec_dir": {
+            "$ref": "#/components/schemas/SessionDirectory_session_src_dir_exec_dir"
+          },
+          "prop_dir": {
+            "$ref": "#/components/schemas/SessionDirectory_session_src_dir_prop_dir"
+          }
+        }
+      },
+      "SessionDirectory_session_src_dir": {
+        "type": "object",
+        "properties": {
+          "contract_file": {
+            "type": "string"
+          },
+          "contract_file_compiled": {
+            "type": "boolean"
+          },
+          "functions_dir": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SessionDirectory_session_src_dir_functions_dir"
+            }
+          }
+        }
+      },
+      "SessionDirectory_session": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "src_dir": {
+            "$ref": "#/components/schemas/SessionDirectory_session_src_dir"
+          }
+        }
+      }
+    }
+  }
+}
